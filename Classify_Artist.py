@@ -21,7 +21,6 @@ from keras.callbacks import ModelCheckpoint, EarlyStopping
 print(keras.__version__)
 
 
-model_name = 'vgg-16'
 path = Path("test_data")
 df = pd.read_csv(path/'artists.csv')
 df.head()
@@ -92,7 +91,7 @@ X_val, X_test, y_val, y_test = train_test_split(X_val, y_val, test_size=0.5, ran
 
 
 
-batch_size = 64
+batch_size = 32
 training_batch_generator = CustomGenerator(X_train, y_train, batch_size)
 validation_batch_generator = CustomGenerator(X_val, y_val, batch_size)
 print(training_batch_generator)
@@ -180,7 +179,7 @@ model.fit_generator(generator=training_batch_generator,
                     validation_steps=int(validation_size // batch_size)
                    )
 
-model.save(Path(model_name/'.h5'))
+model.save(Path('model.h5'))
 loss_train = model.history.history['loss']
 loss_val = model.history.history['val_loss']
 

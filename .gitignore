@@ -131,3 +131,7 @@ dmypy.json
 *.ipynb
 data/
 test_data/
+original_data/
+preprocess_test/
+preprocessed/
+test_data_smaller/

@@ -1,11 +1,8 @@
 from pathlib import Path
 import os
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
-import random
 from sklearn.model_selection import train_test_split
-from PIL import Image
 import keras
 import cv2
 import tensorflow as tf
@@ -16,22 +13,14 @@ from keras.optimizers import Adam
 from keras.preprocessing import image
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import ModelCheckpoint, EarlyStopping
+from sklearn.preprocessing import LabelBinarizer
 
-
-print(keras.__version__)
-
-
-path = Path("test_data")
+path = Path("test_data_smaller")
 df = pd.read_csv(path/'artists.csv')
-df.head()
-
-print('Number of Artists:', len(df))
-
 
 #check distribution of paintings
 artists_df = df[['name', 'paintings']].groupby(['name'], as_index = False).sum()
 names = artists_df.sort_values('paintings', ascending = False)[:50]
-
 
 #remove spaces from names
 images_dir = Path(path/'images/images')
@@ -71,56 +60,37 @@ for painting in painting_list:
     artist_list.extend([artist])
 
 y = np.array(artist_list)  
-X = np.array(painting_list)  
-
-print(len(X))
-print(len(y))
+y, label = pd.factorize(pd.Series(y))
+X = np.array(painting_list) 
 
 
-from sklearn.preprocessing import LabelBinarizer
 encoder = LabelBinarizer()
 y = encoder.fit_transform(y)
-print(y)
-
-print(len(X))
-print(len(y))
 
 
-X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.4, random_state=1)
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.5, random_state=1)
 X_val, X_test, y_val, y_test = train_test_split(X_val, y_val, test_size=0.5, random_state=1)
-
-
 
 batch_size = 32
 training_batch_generator = CustomGenerator(X_train, y_train, batch_size)
 validation_batch_generator = CustomGenerator(X_val, y_val, batch_size)
-print(training_batch_generator)
-print(validation_batch_generator)
 training_size = len(X_train)
 validation_size = len(X_val)
 test_size = len(X_test)
 
-print(training_size)
-print(validation_size)
-print(test_size)
 
-# needed for first run
-"""files = os.listdir(Path(images_dir/'Albrecht_Dürer'))
-print(files)
-for src in files:
-    dst = src.replace('DuΓòá├¬rer', 'Dürer')
-    os.rename(Path(images_dir/'Albrecht_Dürer'/src), Path(images_dir/'Albrecht_Dürer'/dst))"""
 
 # Implement and Train A model based on VGG-16's architecture
 
-
 # Generate the model
 model = Sequential()
+
 # Layer 1: Convolutional
 model.add(Conv2D(input_shape=(224, 224, 3), filters=64, kernel_size=(3, 3),
                  padding='same', activation='relu'))
 # Layer 2: Convolutional
 model.add(Conv2D(filters=64, kernel_size=(3,3), padding='same', activation='relu'))
+
 # Layer 3: MaxPooling
 model.add(MaxPool2D(pool_size=(2, 2), strides=(2, 2)))
 
@@ -165,21 +135,20 @@ model.add(Dense(units=4096, activation='relu'))
 # Layer 21: Fully Connected Layer
 model.add(Dense(units=4096, activation='relu'))
 # Layer 22: Softmax Layer
-model.add(Dense(units=8, activation='softmax'))
+model.add(Dense(units=4, activation='softmax'))
 print(model.summary())
-
-
 
 model.compile(loss='categorical_crossentropy', optimizer='adam')
 model.fit_generator(generator=training_batch_generator,
                     steps_per_epoch=int(training_size // batch_size),
-                    epochs=6,
+                    # should be 6 epochs
+                    epochs=2,
                     verbose=1,
                     validation_data=validation_batch_generator,
                     validation_steps=int(validation_size // batch_size)
                    )
 
-model.save(Path('model.h5'))
+model.save(Path('model_smaller.h5'))
 loss_train = model.history.history['loss']
 loss_val = model.history.history['val_loss']
 

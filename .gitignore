@@ -136,3 +136,4 @@ preprocessed/
 test_data_smaller/
 *.jpg
 *.h5
+*.png

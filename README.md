@@ -32,7 +32,7 @@ https://www.kaggle.com/datasets/ikarus777/best-artworks-of-all-time
 
 ## Running the Code
 
-To run the code, simply add the downloaded folder into the repository. And specify the path in the corresponding notebook, depending on your folder name. If you use the test_data folder, you don't need to anything. You can simply extract the data and copy the unzip folder into the repository.
+To run the code, simply add the downloaded folder into the repository and specify the path in the corresponding notebooks. If you use the test_data folder, you don't need to change anything. You can simply extract the data and copy the unziped folder into the repository.
 
 Execute the notebooks in the following order:
 1.) Run preprocess.ipynb

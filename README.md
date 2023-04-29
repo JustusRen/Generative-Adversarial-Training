@@ -7,26 +7,17 @@ This is the repository of Thomas Fiello's and Justus Renkhoff's class project fo
 ### Setting up environment
 First, we recommend to create an environment to install the appropriate Python packages. For this we recommend to use conda (https://conda.io/projects/conda/en/latest/index.html). 
 
-After installing Anaconda on your system (https://www.anaconda.com/download/), use the following command to create a conda environment with Python 3.10. 
+After installing Anaconda on your system (https://www.anaconda.com/download/), you can create a conda environment. Inside the repository is a environment.yml file which contains all necessary packages to execute the code. The environment including the packages can be created and installed by executing the following command: 
 ```console
-conda create python=3.10 --name <env_name>
+conda env create -f environment.yml
 ``` 
 
-This environment can then be activated using the command:
+The name of created environment <env_name> should be env_gen_ai_cs595. This environment can then be activated using the following command. 
 ```console
 conda activate <env_name>
 ``` 
 
-Inside the repository there is a requirements.txt which contains all necessary packages to execute the code. These packages can be installed automatically by executing the following command: 
-```console
-pip install -r requirements.txt
-``` 
-
-Depending on the development environment used, further steps are required to add the environment as a kernel. In Visual Studio it should now be possible to select your Environment as Kernel. In Jupyter it might be needed to first install ipykernel using the command:
-```console
-conda install -c anaconda ipykernel
-``` 
-And then adding your Environment to Jupyter with:
+Depending on the IDE used, further steps may be required to add the environment as a kernel. n Jupyter it might be needed to add your environment to Jupyter with:
 ```console
 python -m ipykernel install --user --name=<env_name>
 ``` 

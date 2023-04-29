@@ -24,11 +24,21 @@ python -m ipykernel install --user --name=<env_name>
 
 ### Downloading required data
 
+To use the code, some test data is needed. This can be downloaded from the following link. The files also include two pretrained models:
+https://myerauedu-my.sharepoint.com/:f:/g/personal/renkhofj_my_erau_edu/EmXD6hjQIfRDvVXuyDKWkNsBeutqi0PTNYQP7e6Trg7rSw?e=I6gAlf
 
+The full data set can be downloaded here:
+https://www.kaggle.com/datasets/ikarus777/best-artworks-of-all-time
 
 ## Running the Code
 
+To run the code, simply add the downloaded folder into the repository. And specify the path in the corresponding notebook, depending on your folder name. If you use the test_data folder, you don't need to anything. You can simply extract the data and copy the unzip folder into the repository.
 
+Execute the notebooks in the following order:
+1.) Run preprocess.ipynb
+2.) Run train_classification_model.ipynb
+3.) Run FGSM_adversarial_attack.ipynb
+4.) Run gan_comparison.ipynb
 
 ## Disclaimer
 The code and these instructions were tested using Python 3.10.11 and Windwos 11. Depending on your operating system modifications might be needed. Feel free to contact us in case any problems occure or questions arise.
